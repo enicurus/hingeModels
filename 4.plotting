@@ -1,0 +1,279 @@
+#plotting model fits
+
+
+library(ggplot2)
+library(ggpubr)
+library(ggthemes)
+library(dplyr)
+
+#######################
+#Sample Size variation#
+#######################
+
+UZ.sample.size<-read.csv("~/Dropbox/HingeModels/UZ_sample_size.csv")
+UZ.eval.sample.size<-read.csv("~/Dropbox/HingeModels/UZ_sample_size_eval.csv")
+
+DH.sample.size<-read.csv("~/Dropbox/HingeModels/DH_sample_size.csv")
+DH.eval.sample.size<-read.csv("~/Dropbox/HingeModels/DH_sample_size_eval.csv")
+
+Pimm.sample.size<-read.csv("~/Dropbox/HingeModels/Pimm_sample_size.csv")
+Pimm.eval.sample.size<-read.csv("~/Dropbox/HingeModels/Pimm_sample_size_eval.csv")
+
+
+#######################
+##Variance variation###
+#######################
+
+
+
+UZ.var<-read.csv("~/Dropbox/HingeModels/UZ_var.csv")
+UZ.eval.var<-read.csv("~/Dropbox/HingeModels/UZ_var_eval.csv")
+
+
+DH.var<-read.csv("~/Dropbox/HingeModels/DH_Var.csv")
+DH.eval.var<-read.csv("~/Dropbox/HingeModels/DH_Var_eval.csv")
+
+
+Pimm.var<-read.csv("~/Dropbox/HingeModels/Pimm_var.csv")
+Pimm.eval.var<-read.csv("~/Dropbox/HingeModels/Pimm_var_eval.csv")
+
+
+
+
+#######################
+##Duration variation###
+#######################
+
+
+UZ.dur<-read.csv("~/Dropbox/HingeModels/UZ_dur.csv")
+UZ.eval.dur<-read.csv("~/Dropbox/HingeModels/UZ_dur_eval.csv")
+
+DH.dur<-read.csv("~/Dropbox/HingeModels/DH_dur.csv")
+DH.eval.dur<-read.csv("~/Dropbox/HingeModels/DH_dur_eval.csv")
+
+Pimm.dur<-read.csv("~/Dropbox/HingeModels/Pimm_dur.csv")
+Pimm.eval.dur<-read.csv("~/Dropbox/HingeModels/Pimm_dur_eval.csv")
+
+
+#######################
+##Hidden Populations###
+#######################
+
+
+UZ.hp<-read.csv("~/Dropbox/HingeModels/UZ_hidden.csv")
+UZ.eval.hp<-read.csv("~/Dropbox/HingeModels/UZ_hidden_eval.csv")
+
+DH.hp<-read.csv("~/Dropbox/HingeModels/DH_hidden.csv")
+DH.eval.hp<-read.csv("~/Dropbox/HingeModels/DH_hidden_eval.csv")
+
+Pimm.hp<-read.csv("~/Dropbox/HingeModels/Pimm_hidden.csv")
+Pimm.eval.hp<-read.csv("~/Dropbox/HingeModels/Pimm_hidden_eval.csv")
+
+
+
+#######################
+##Rate Variation###
+#######################
+
+
+UZ.rv<-read.csv("~/Dropbox/HingeModels/UZ_rv.csv")
+UZ.eval.rv<-read.csv("~/Dropbox/HingeModels/UZ_rv_eval.csv")
+
+DH.rv<-read.csv("~/Dropbox/HingeModels/DH_rv.csv")
+DH.eval.rv<-read.csv("~/Dropbox/HingeModels/DH_rv_eval.csv")
+
+
+Pimm.rv<-read.csv("~/Dropbox/HingeModels/Pimm_rv.csv")
+Pimm.eval.rv<-read.csv("~/Dropbox/HingeModels/Pimm_rv_eval.csv")
+
+
+
+
+##########################################
+######      Parameter plots       ########
+##########################################
+
+init<-list()
+#sample size
+init$UZ.ss<-data.frame(UZ.sample.size$init);init$UZ.ss$model<-"UZ";init$UZ.ss$variable<-"init";colnames(init$UZ.ss)[1]<-"value";init$UZ.ss$sim<-UZ.sample.size$n;init$UZ.ss$parameter<-"sample_size"
+init$DH.ss<-data.frame(DH.sample.size$startDate);init$DH.ss$model<-"DH";init$DH.ss$variable<-"init";colnames(init$DH.ss)[1]<-"value";init$DH.ss$sim<-DH.sample.size$n;init$DH.ss$parameter<-"sample_size"
+init$Pimm.ss<-data.frame(Pimm.sample.size$start);init$Pimm.ss$model<-"Pimm";init$Pimm.ss$variable<-"init";colnames(init$Pimm.ss)[1]<-"value";init$Pimm.ss$sim<-Pimm.sample.size$n;init$Pimm.ss$parameter<-"sample_size"
+
+
+#var
+init$UZ.var<-data.frame(UZ.var$init);init$UZ.var$model<-"UZ";init$UZ.var$variable<-"init";colnames(init$UZ.var)[1]<-"value";init$UZ.var$sim<-UZ.var$n;init$UZ.var$parameter<-"start_variance"
+init$DH.var<-data.frame(DH.var$startDate);init$DH.var$model<-"DH";init$DH.var$variable<-"init";colnames(init$DH.var)[1]<-"value";init$DH.var$sim<-DH.var$n;init$DH.var$parameter<-"start_variance"
+init$Pimm.var<-data.frame(Pimm.var$start);init$Pimm.var$model<-"Pimm";init$Pimm.var$variable<-"init";colnames(init$Pimm.var)[1]<-"value";init$Pimm.var$sim<-Pimm.var$n;init$Pimm.var$parameter<-"start_variance"
+
+#dur
+init$UZ.dur<-data.frame(UZ.dur$init);init$UZ.dur$model<-"UZ";init$UZ.dur$variable<-"init";colnames(init$UZ.dur)[1]<-"value";init$UZ.dur$sim<-UZ.dur$n;init$UZ.dur$parameter<-"Duration"
+init$DH.dur<-data.frame(DH.dur$startDate);init$DH.dur$model<-"DH";init$DH.dur$variable<-"init";colnames(init$DH.dur)[1]<-"value";init$DH.dur$sim<-DH.dur$n;init$DH.dur$parameter<-"Duration"
+init$Pimm.dur<-data.frame(Pimm.dur$start);init$Pimm.dur$model<-"Pimm";init$Pimm.dur$variable<-"init";colnames(init$Pimm.dur)[1]<-"value";init$Pimm.dur$sim<-Pimm.dur$n;init$Pimm.dur$parameter<-"Duration"
+
+#hp
+init$UZ.hp<-data.frame(UZ.hp$init);init$UZ.hp$model<-"UZ";init$UZ.hp$variable<-"init";colnames(init$UZ.hp)[1]<-"value";init$UZ.hp$sim<-UZ.hp$n;init$UZ.hp$parameter<-"Hidden pop"
+init$DH.hp<-data.frame(DH.hp$startDate);init$DH.hp$model<-"DH";init$DH.hp$variable<-"init";colnames(init$DH.hp)[1]<-"value";init$DH.hp$sim<-DH.hp$n;init$DH.hp$parameter<-"Hidden pop"
+init$Pimm.hp<-data.frame(Pimm.hp$start);init$Pimm.hp$model<-"Pimm";init$Pimm.hp$variable<-"init";colnames(init$Pimm.hp)[1]<-"value";init$Pimm.hp$sim<-Pimm.hp$n;init$Pimm.hp$parameter<-"Hidden pop"
+
+
+#rv
+init$UZ.rv<-data.frame(UZ.rv$init);init$UZ.rv$model<-"UZ";init$UZ.rv$variable<-"init";colnames(init$UZ.rv)[1]<-"value";init$UZ.rv$sim<-UZ.rv$n;init$UZ.rv$parameter<-"rate_variation"
+init$DH.rv<-data.frame(DH.rv$startDate);init$DH.rv$model<-"DH";init$DH.rv$variable<-"init";colnames(init$DH.rv)[1]<-"value";init$DH.rv$sim<-DH.rv$n;init$DH.rv$parameter<-"rate_variation"
+init$Pimm.rv<-data.frame(Pimm.rv$start);init$Pimm.rv$model<-"Pimm";init$Pimm.rv$variable<-"init";colnames(init$Pimm.rv)[1]<-"value";init$Pimm.rv$sim<-Pimm.rv$n;init$Pimm.rv$parameter<-"rate_variation"
+
+
+inits.df<-do.call(rbind,init)
+
+names(inits.df)[5]<-"test"
+
+inits.df$parameter<-"initiation"
+
+### plot the initiation data
+
+
+ggplot(s.df,aes(y=value,x=sim,color=model))+geom_point(alpha=.5)+facet_grid(test~model,scales="free")+theme_tufte()
+
+
+
+term<-list()
+#sample size
+term$UZ.ss<-data.frame(UZ.sample.size$term);term$UZ.ss$model<-"UZ";term$UZ.ss$variable<-"term";colnames(term$UZ.ss)[1]<-"value";term$UZ.ss$sim<-UZ.sample.size$n;term$UZ.ss$parameter<-"sample_size"
+term$DH.ss<-data.frame(DH.sample.size$endDate);term$DH.ss$model<-"DH";term$DH.ss$variable<-"term";colnames(term$DH.ss)[1]<-"value";term$DH.ss$sim<-DH.sample.size$n;term$DH.ss$parameter<-"sample_size"
+term$Pimm.ss<-data.frame(Pimm.sample.size$term);term$Pimm.ss$model<-"Pimm";term$Pimm.ss$variable<-"term";colnames(term$Pimm.ss)[1]<-"value";term$Pimm.ss$sim<-Pimm.sample.size$n;term$Pimm.ss$parameter<-"sample_size"
+
+
+#var
+term$UZ.var<-data.frame(UZ.var$term);term$UZ.var$model<-"UZ";term$UZ.var$variable<-"term";colnames(term$UZ.var)[1]<-"value";term$UZ.var$sim<-UZ.var$n;term$UZ.var$parameter<-"start_variance"
+term$DH.var<-data.frame(DH.var$endDate);term$DH.var$model<-"DH";term$DH.var$variable<-"term";colnames(term$DH.var)[1]<-"value";term$DH.var$sim<-DH.var$n;term$DH.var$parameter<-"start_variance"
+term$Pimm.var<-data.frame(Pimm.var$term);term$Pimm.var$model<-"Pimm";term$Pimm.var$variable<-"term";colnames(term$Pimm.var)[1]<-"value";term$Pimm.var$sim<-Pimm.var$n;term$Pimm.var$parameter<-"start_variance"
+
+#dur
+term$UZ.dur<-data.frame(UZ.dur$term);term$UZ.dur$model<-"UZ";term$UZ.dur$variable<-"term";colnames(term$UZ.dur)[1]<-"value";term$UZ.dur$sim<-UZ.dur$n;term$UZ.dur$parameter<-"Duration"
+term$DH.dur<-data.frame(DH.dur$endDate);term$DH.dur$model<-"DH";term$DH.dur$variable<-"term";colnames(term$DH.dur)[1]<-"value";term$DH.dur$sim<-DH.dur$n;term$DH.dur$parameter<-"Duration"
+term$Pimm.dur<-data.frame(Pimm.dur$term);term$Pimm.dur$model<-"Pimm";term$Pimm.dur$variable<-"term";colnames(term$Pimm.dur)[1]<-"value";term$Pimm.dur$sim<-Pimm.dur$n;term$Pimm.dur$parameter<-"Duration"
+
+#hp
+term$UZ.hp<-data.frame(UZ.hp$term);term$UZ.hp$model<-"UZ";term$UZ.hp$variable<-"term";colnames(term$UZ.hp)[1]<-"value";term$UZ.hp$sim<-UZ.hp$n;term$UZ.hp$parameter<-"Hidden pop"
+term$DH.hp<-data.frame(DH.hp$endDate);term$DH.hp$model<-"DH";term$DH.hp$variable<-"term";colnames(term$DH.hp)[1]<-"value";term$DH.hp$sim<-DH.hp$n;term$DH.hp$parameter<-"Hidden pop"
+term$Pimm.hp<-data.frame(Pimm.hp$term);term$Pimm.hp$model<-"Pimm";term$Pimm.hp$variable<-"term";colnames(term$Pimm.hp)[1]<-"value";term$Pimm.hp$sim<-Pimm.hp$n;term$Pimm.hp$parameter<-"Hidden pop"
+
+
+#rv
+term$UZ.rv<-data.frame(UZ.rv$term);term$UZ.rv$model<-"UZ";term$UZ.rv$variable<-"term";colnames(term$UZ.rv)[1]<-"value";term$UZ.rv$sim<-UZ.rv$n;term$UZ.rv$parameter<-"rate_variation"
+term$DH.rv<-data.frame(DH.rv$endDate);term$DH.rv$model<-"DH";term$DH.rv$variable<-"term";colnames(term$DH.rv)[1]<-"value";term$DH.rv$sim<-DH.rv$n;term$DH.rv$parameter<-"rate_variation"
+term$Pimm.rv<-data.frame(Pimm.rv$term);term$Pimm.rv$model<-"Pimm";term$Pimm.rv$variable<-"term";colnames(term$Pimm.rv)[1]<-"value";term$Pimm.rv$sim<-Pimm.rv$n;term$Pimm.rv$parameter<-"rate_variation"
+
+
+terms.df<-do.call(rbind,term)
+
+names(terms.df)[5]<-"test"
+
+terms.df$parameter<-"termination"
+
+
+plotData<-rbind(inits.df,terms.df)
+
+
+#full<-ggplot(plotData,aes(y=value,x=sim,color=parameter))+geom_point(alpha=.5)+facet_grid(test~model,scales="free")+theme_tufte()
+
+
+ss.df<-plotData[plotData$test=="sample_size",]
+ss.df$sim<-factor(ss.df$sim,levels=c(5,10,15,20,30,40,50,75,100,150,200,250))
+
+p1<-ggplot(ss.df,aes(y=value,x=sim,color=parameter))+
+geom_point(alpha=.1,show.legend=FALSE)+facet_grid(model~sim,scales="free")+theme_tufte()+
+geom_hline(yintercept=100,color="red")+geom_hline(yintercept=200,color="blue")+
+ylim(c(0,400))+xlab("Sample Size")+ylab("predicted Julian day")+theme(strip.text.x = element_blank())+ theme(panel.spacing.x=unit(0, "inches"))
+
+var.df<-plotData[plotData$test=="start_variance",]
+var.df$sim<-factor(var.df$sim,levels=c(.5,1,2,3,5,8,13,21,34,55,89,144))
+
+p2<-ggplot(var.df,aes(y=value,x=sim,color=parameter))+
+geom_point(alpha=.1,show.legend=FALSE)+facet_grid(model~sim,scales="free")+theme_tufte()+
+geom_hline(yintercept=100,color="red")+geom_hline(yintercept=200,color="blue")+
+ylim(c(0,400))+xlab("Initiation Variance")+ylab("predicted Julian day")+theme(strip.text.x = element_blank())+ theme(panel.spacing.x=unit(0, "inches"))
+
+
+dur.df<-plotData[plotData$test=="Duration",]
+dur.df$sim<-factor(dur.df$sim,levels=c(1,2,5,10,20,30,40,50,100,150,200,250))
+
+p3<-ggplot(dur.df,aes(y=value,x=sim,color=parameter))+
+geom_point(alpha=.1,show.legend=FALSE)+facet_grid(model~sim,scales="free")+theme_tufte()+
+geom_hline(yintercept=100,color="red")+
+ylim(c(0,400))+xlab("Duration")+ylab("predicted Julian day")+theme(strip.text.x = element_blank())+ theme(panel.spacing.x=unit(0, "inches"))
+
+
+hp.df<-plotData[plotData$test=="Hidden pop",]
+hp.df$sim<-factor(hp.df$sim,levels=c(-50,-30,-20,-10,-5,0,5,10,20,30,50,60))
+
+
+p4<-ggplot(hp.df,aes(y=value,x=sim,color=parameter))+
+geom_point(alpha=.1,show.legend=FALSE)+facet_grid(model~sim,scales="free")+theme_tufte()+
+geom_hline(yintercept=100,color="red")+geom_hline(yintercept=200,color="blue")+ylim(50,220)+
+xlab("Hidden Population Offset")+ylab("predicted Julian day")+theme(strip.text.x = element_blank())+ theme(panel.spacing.x=unit(0, "inches"))
+
+rv.df<-plotData[plotData$test=="rate_variation",]
+rv.df$sim<-factor(rv.df$sim,levels=c(0,.05,.1,.2,.5,.75,1,1.5,2,3,4,5))
+
+p5<-ggplot(rv.df,aes(y=value,x=sim,color=parameter))+
+geom_point(alpha=.1,show.legend=FALSE)+facet_grid(model~sim,scales="free")+theme_tufte()+
+geom_hline(yintercept=100,color="red")+geom_hline(yintercept=200,color="blue")+ylim(80,220)+
+xlab("Rate Variance")+ylab("predicted Julian day")+theme(strip.text.x = element_blank())+ theme(panel.spacing.x=unit(0, "inches"))
+
+
+all<-ggarrange(p1,p2,p3,p4,p5,ncol=1)
+
+
+
+pdf("~/Dropbox/HingeModels/allModels.pdf",height=16,width=5)
+print(all)
+dev.off()
+
+
+
+################
+
+##Plot 95% CIs
+
+###############
+
+#sample size
+
+
+eval.ss<-rbind(UZ.eval.sample.size,DH.eval.sample.size,Pimm.eval.sample.size)
+eval.var<-rbind(UZ.eval.var,DH.eval.var,Pimm.eval.var)
+eval.dur<-rbind(UZ.eval.dur,DH.eval.dur,Pimm.eval.dur)
+eval.hp<-rbind(UZ.eval.hp,DH.eval.hp,Pimm.eval.hp)
+eval.rv<-rbind(UZ.eval.rv,DH.eval.rv,Pimm.eval.rv)
+
+#convert value to factor so they facet
+
+eval.ss$n<-factor(eval.ss$n,levels=c(5,10,15,20,30,40,50,75,100,150,200,250))
+eval.var$n<-factor(eval.var$n,levels=c(.5,1,2,3,5,8,13,21,34,55,89,144))
+eval.dur$n<-factor(eval.dur$n,levels=c(1,2,5,10,20,30,40,50,100,150,200,250))
+eval.hp$n<-factor(eval.hp$n,levels=c(-50,-30,-20,-10,-5,0,5,10,20,30,50,60))
+eval.rv$n<-factor(eval.rv$n,levels=c(0,.05,.1,.2,.5,.75,1,1.5,2,3,4,5))
+
+
+ss<-ggplot(eval.ss,aes(x=n,y=value,colour=variable))+geom_point(size=.2)+facet_grid(model~param,scales="free")+theme_tufte()+geom_rangeframe(col="black")+
+ylab("% of models")+xlab("sample size")+geom_line(aes(group=variable),alpha=.2,lwd=2)
+var<-ggplot(eval.var,aes(x=n,y=value,colour=variable))+geom_point(size=.2)+facet_grid(model~param,scales="free")+theme_tufte()+geom_rangeframe(col="black")+
+ylab("% of models")+xlab("Initiation variance")+geom_line(aes(group=variable),alpha=.2,lwd=2)
+dur<-ggplot(eval.dur,aes(x=n,y=value,colour=variable))+geom_point(size=.2)+facet_grid(model~param,scales="free")+theme_tufte()+geom_rangeframe(col="black")+
+ylab("% of models")+xlab("Duration")+geom_line(aes(group=variable),alpha=.2,lwd=2)
+hp<-ggplot(eval.hp,aes(x=n,y=value,colour=variable))+geom_point(size=.2)+facet_grid(model~param,scales="free")+theme_tufte()+geom_rangeframe(col="black")+
+ylab("% of models")+xlab("Hidden Population offset")+geom_line(aes(group=variable),alpha=.2,lwd=2)
+rv<-ggplot(eval.rv,aes(x=n,y=value,colour=variable))+geom_point(size=.2)+facet_grid(model~param,scales="free")+theme_tufte()+geom_rangeframe(col="black")+
+ylab("% of models")+xlab("Rate Variance")+geom_line(aes(group=variable),alpha=.2,lwd=2)
+
+evals<-ggarrange(ss,var,dur,hp,rv,ncol=1,common.legend=TRUE,legend="right")
+
+
+
+pdf("~/Dropbox/HingeModels/95CIplot.pdf",height=16,width=5)
+print(evals)
+dev.off()
+
+
+
+
